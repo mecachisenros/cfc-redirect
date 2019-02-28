@@ -9,6 +9,7 @@ import {
 } from 'keen-ui';
 
 import 'keen-ui/dist/keen-ui.css'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
 
 import Api from 'Utils/Api'
 import Event from 'Utils/Event'

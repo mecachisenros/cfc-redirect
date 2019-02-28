@@ -2,38 +2,33 @@
 	<div class="form-row">
 
 		<div class="row-item-1" style="width:100%;">
-			<v-select
+			<multiselect
 				:value="currentSelection"
-				:options="options"
-				:loading="isLoading"
+				hideSelected
+				label="label"
+				track-by="value"
 				:placeholder="label"
-				:onChange="onChange"
-				@search="onSearch"
-				@search:focus="onSearch"
-				>
-					<template slot="spinner">
-						<ui-progress-circular color="primary" v-show="isLoading"></ui-progress-circular>
-					</template>
-				</v-select>
+				:options="postsAndPages"
+				@input="onChange">
+				<template slot="option" slot-scope="props">
+					<div class="option__desc">
+						<div class="option__title">{{ props.option.label }}</div>
+						<div class="option__small" style="font-size: 12px; line-height: 2.5;"><em>{{ props.option.link }}</em></div>
+					</div>
+				</template>
+			</multiselect>
 		</div>
-
-		<ui-switch
-			class="cfc-switch row-item-2"
-			v-model="isPageOrPost"
-			true-value="1"
-			false-value="0">
-			Post | Page
-		</ui-switch>
 
 	</div>
 </template>
 
 <script>
-	import vSelect from 'vue-select'
+	import Multiselect from 'vue-multiselect'
+	import { store, mutations } from 'Utils/Store'
 
 	export default {
 		components: {
-			vSelect
+			Multiselect
 		},
 		props: {
 			selected: {
@@ -43,10 +38,18 @@
 		data() {
 			return {
 				isLoading: false,
-				label: 'Page to redirect to',
-				isPageOrPost: 1,
-				options: []
+				label: 'Post to redirect to',
+				postsAndPages: store.postsAndPages
 			}
+		},
+		created() {
+
+			const pagesPath = '/pages?per_page=100'
+			const postsPath = '/posts?per_page=100'
+
+			this.getPostsAndPages( pagesPath )
+			this.getPostsAndPages( postsPath )
+
 		},
 		computed: {
 			currentSelection: {
@@ -61,50 +64,34 @@
 			}
 		},
 		methods: {
-			onSearch( term ) {
+			getPostsAndPages( path, page = 1 ) {
 
-				const entity = parseInt( this.isPageOrPost ) ? 'pages' : 'posts'
+				let postsAndPages = []
+				let queryString = `${path}&page=${page}`
 
-				const path = term ? `/${entity}?search=${term}` : `/${entity}`
-
-				this.isLoading = true
-
-				this.api.wp.get( path )
+				this.api.wp.get( queryString )
 					.then( result => {
 
-						this.options = result.map( post => {
+						this.isLoading = true
 
-							return { value: post.id, label: post.title.rendered }
-
+						const posts = result.map( post => {
+							return { value: post.id, label: post.title.rendered, post_type: post.type, link: post.link }
 						} )
 
+						mutations.addPostsAndPages( posts )
+						this.getPostsAndPages( path, ++page )
 						this.isLoading = false
 
 					} )
 					.catch( error => {
-
+						this.isLoading = false
 						console.log( error )
-						this.event.fire( 'add-notice', error.message )
-
 					} )
 
 			},
 			onChange( selection ) {
 
 				this.event.fire( 'post-selection', selection )
-
-			}
-		},
-		watch: {
-			isPageOrPost( value ) {
-
-				this.options = []
-				this.currentSelection = {}
-
-				let newLabel = 'to redirect to'
-				this.label = parseInt( value ) ? `Page ${newLabel}` : `Post ${newLabel}`
-
-				this.selected.post_type = parseInt( value ) ? 'page' : 'post'
 
 			}
 		}

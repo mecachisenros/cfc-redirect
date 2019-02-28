@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mecachisenros/caldera-forms-civicrm-redirect.git"
+    "url": "git+https://github.com/mecachisenros/cfc-redirect.git"
   },
   "keywords": [
     "Caldera Forms",
@@ -20,9 +20,9 @@
   "author": "Andrei Mondoc",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mecachisenros/caldera-forms-civicrm-redirect/issues"
+    "url": "https://github.com/mecachisenros/cfc-redirect/issues"
   },
-  "homepage": "https://github.com/mecachisenros/caldera-forms-civicrm-redirect",
+  "homepage": "https://github.com/mecachisenros/cfc-redirect",
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
@@ -50,6 +50,6 @@
     "keen-ui": "^1.1.2",
     "qs": "^6.6.0",
     "vue": "^2.6.6",
-    "vue-select": "^2.5.1"
+    "vue-multiselect": "^2.1.3"
   }
 }

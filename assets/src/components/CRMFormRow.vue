@@ -2,19 +2,19 @@
 	<div class="form-row">
 
 		<div class="row-item-1" style="width:100%;">
-			<v-select
+			<multiselect
 				:value="currentSelection"
+				hideSelected
+				label="label"
+				track-by="value"
+				:internal-search="false"
+				:placeholder="label"
 				:options="options"
 				:loading="isLoading"
-				:placeholder="label"
-				:onChange="onChange"
-				@search="onSearch"
-				@search:focus="onSearch"
-				>
-					<template slot="spinner">
-						<ui-progress-circular color="primary" v-show="isLoading"></ui-progress-circular>
-					</template>
-				</v-select>
+				@search-change="onSearch"
+				@open="onSearch"
+				@input="onChange"
+			></multiselect>
 		</div>
 
 		<ui-switch
@@ -29,11 +29,11 @@
 </template>
 
 <script>
-	import vSelect from 'vue-select'
+	import Multiselect from 'vue-multiselect'
 
 	export default {
 		components: {
-			vSelect
+			Multiselect
 		},
 		props: {
 			selected: {

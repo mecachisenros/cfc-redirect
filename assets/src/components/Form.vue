@@ -86,6 +86,7 @@
 					if ( selection ) {
 						this.item.post_id = selection.value
 						this.item.post_title = selection.label
+						this.item.post_type = selection.post_type
 					} 
 				} )
 
@@ -155,5 +156,10 @@
 	}
 	.spinner {
 		z-index: 1000;
+	}
+	.multiselect__input, input[type=text], .multiselect__input:focus, input[type=text]:focus {
+		border: 0px;
+		box-shadow: none;
+		outline: none;
 	}
 </style>
