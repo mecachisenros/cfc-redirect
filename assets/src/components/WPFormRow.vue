@@ -7,6 +7,7 @@
 				hideSelected
 				label="label"
 				track-by="value"
+				:loading="isLoading"
 				:placeholder="label"
 				:options="postsAndPages"
 				@input="onChange">
