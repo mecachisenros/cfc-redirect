@@ -100,7 +100,7 @@ class Plugin {
 
 		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
 
-		add_filter( 'civicrm_in_wordpress', [ $this, 'maybe_do_redirect' ] );
+		add_filter( 'civicrm_context', [ $this, 'maybe_do_redirect' ] );
 
 	}
 
@@ -135,21 +135,21 @@ class Plugin {
 	 * @param bool $is_civi Wheather WP is in CiviCRM context
 	 * @return bool $is_civi
 	 */
-	public function maybe_do_redirect( $in_civi ) {
-	
-		if ( ! $in_civi ) return $in_civi;
+	public function maybe_do_redirect( $context ) {
+
+		if ( $context != 'basepage' ) return $context;
 
 		$args = $this->get_query_args();
 
-		if ( ! $this->is_redirect_page( $args ) ) return $in_civi;
+		if ( ! $this->is_redirect_page( $args ) ) return $context;
 
 		$entity_id = $this->query_get_entity_id();
 
-		if ( ! $entity_id ) return $in_civi;
+		if ( ! $entity_id ) return $context;
 
 		$post_id = $this->get_post_id_for_entity( $entity_id );
 
-		if ( ! $post_id ) return $in_civi;
+		if ( ! $post_id ) return $context;
 
 		/**
 		 * Filter redirect target.
