@@ -102,6 +102,9 @@ class Plugin {
 
 		add_filter( 'civicrm_context', [ $this, 'maybe_do_redirect' ] );
 
+		// register db hooks
+		$this->db->register_hooks();
+
 	}
 
 	/**

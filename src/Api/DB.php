@@ -62,9 +62,6 @@ class DB {
 		$this->prefix = $wpdb->prefix;
 		$this->prefixed_table_name = $this->prefix . $this->table_name;
 
-		// register hooks
-		$this->register_hooks();
-
 	}
 
 	/**
@@ -184,7 +181,7 @@ class DB {
 
 		if ( $current_db_version != $this->db_version )
 			$this->create_tables();
-		
+
 	}
 
 	/**
