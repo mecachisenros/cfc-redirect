@@ -23,7 +23,7 @@ define( 'CFC_REDIRECT_SRC', CFC_REDIRECT_PATH . 'src' );
 // plugin url
 define( 'CFC_REDIRECT_URL', plugin_dir_url( __FILE__ ) );
 
-add_action( 'init', function() {
+add_action( 'plugins_loaded', function() {
 
 	// bail if Caldera Forms is not available
 	if ( ! defined( 'CFCORE_VER' ) ) return;
