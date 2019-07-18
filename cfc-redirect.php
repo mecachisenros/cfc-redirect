@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Caldera Forms CiviCRM Redirect
  * Description: Redirect CiviCRM Contribution and Event pages to Caldera Forms.
- * Version: 0.2
+ * Version: 0.3
  * Author: Andrei Mondoc
  * Author URI: https://github.com/mecachisenros
  * Plugin URI: https://github.com/mecachisenros/cfc-redirect
@@ -13,7 +13,7 @@
 if ( ! defined( 'WPINC' ) ) die( 'Cheating huh!?' );
 
 // version
-define( 'CFC_REDIRECT_VERSION', '0.2' );
+define( 'CFC_REDIRECT_VERSION', '0.3' );
 // plugin basename
 define( 'CFC_REDIRECT_BASE', plugin_basename( __FILE__ ) );
 // plugin path
