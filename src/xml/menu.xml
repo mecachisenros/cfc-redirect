@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<menu>
+	<item>
+		<path>civicrm/event/manage/cfcr</path>
+		<page_callback>CRM_Event_Form_ManageEvent_CFCR</page_callback>
+		<title>Caldera Forms Redirect</title>
+		<access_arguments>access CiviEvent</access_arguments>
+		<component>CiviEvent</component>
+	</item>
+</menu>

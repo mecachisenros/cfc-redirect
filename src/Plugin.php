@@ -63,6 +63,8 @@ class Plugin {
 	 */
 	protected $admin_page;
 
+	protected $civi_hooks;
+
 	/**
 	 * Constructor.
 	 *
@@ -88,6 +90,8 @@ class Plugin {
 		$this->db = new Api\DB;
 
 		$this->admin_page = new Admin\Page;
+
+		$this->civi_hooks = new Civi\Hooks;
 
 	}
 
