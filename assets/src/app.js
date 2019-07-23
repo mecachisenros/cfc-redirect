@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import KeenUI from 'keen-ui'
-import { 
+import {
 	UiSnackbarContainer,
 	UiProgressLinear,
 	UiProgressCircular,
@@ -14,11 +14,11 @@ import 'vue-multiselect/dist/vue-multiselect.min.css'
 import Api from 'Utils/Api'
 import Event from 'Utils/Event'
 
-import App from './App'
+import App from './App.vue'
 
 Vue.use( KeenUI )
 
-// rest api helper 
+// rest api helper
 Vue.prototype.api = {
 	r: Api( State.redirectBase ),
 	wp: Api( State.wpBase ),
