@@ -146,7 +146,7 @@ class Plugin {
 
 		if ( $context != 'basepage' ) return $context;
 
-		$args = $this->get_query_args();
+		$args = $this->get_civi_page_path();
 
 		if ( ! $this->is_redirect_page( $args ) ) return $context;
 
@@ -188,12 +188,14 @@ class Plugin {
 	}
 
 	/**
-	 * Get query arguments from $_GET['q'].
+	 * Get civi page path as array
+	 * from query argument ($_GET['q']).
 	 *
 	 * @since 0.1
-	 * @return array $args
+	 * @since 0.2 Renamed function to 'get_civi_page_path'
+	 * @return array $page_path
 	 */
-	protected function get_query_args() {
+	protected function get_civi_page_path() {
 
 		return explode( '/', $_GET['q'] );
 
