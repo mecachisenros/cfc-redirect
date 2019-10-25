@@ -167,7 +167,13 @@ class Plugin {
 		 * @param string $page_type The Civi page type event|contribution_page
 		 * @param array $args The query args
 		 */
-		$post_id = apply_filters( 'cfcr/plugin/before_do_redirect', $post_id, $entity_id, $this->redirect_page_type, $args );
+		$post_id = apply_filters(
+			'cfcr/plugin/before_do_redirect',
+			$post_id,
+			$entity_id,
+			$this->redirect_page_type,
+			$args
+		);
 
 		$this->do_redirect( $post_id );
 
@@ -269,17 +275,15 @@ class Plugin {
 	 */
 	protected function is_event_page( array $args ) {
 
-		$is_event_page = false;
-
 		if ( count( array_intersect( $args, self::EVENT_URI ) ) >= 3 ) {
-
-			$is_event_page = true;
 
 			$this->redirect_page_type = 'event';
 
+			return true;
+
 		}
 
-		return $is_event_page;
+		return false;
 
 	}
 
@@ -292,17 +296,15 @@ class Plugin {
 	 */
 	protected function is_contribution_page( array $args ) {
 
-		$is_contribution_page = false;
-
 		if ( count( array_intersect( $args, self::CONTRIBUTION_URI ) ) >= 3 ) {
-
-			$is_contribution_page = true;
 
 			$this->redirect_page_type = 'contribution_page';
 
+			return true;
+
 		}
 
-		return $is_contribution_page;
+		return false;
 
 	}
 
