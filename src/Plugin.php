@@ -187,7 +187,24 @@ class Plugin {
 	 */
 	protected function do_redirect( int $post_id ) {
 
-		wp_safe_redirect( get_permalink( $post_id ) );
+		$query_args = $this->get_filtered_query_args();
+
+		/**
+		 * Filter redirect url before redirecting.
+		 *
+		 * @since 0.2
+		 * @param string $url
+		 * @param array $query_args
+		 * @param int $post_id
+		 */
+		$url = apply_filters(
+			'cfcr/plugin/url_before_redirect',
+			add_query_arg( $query_args, get_permalink( $post_id ) ),
+			$query_args,
+			$post_id
+		);
+
+		wp_safe_redirect( $url );
 
 		exit;
 
@@ -204,6 +221,47 @@ class Plugin {
 	protected function get_civi_page_path() {
 
 		return explode( '/', $_GET['q'] );
+
+	}
+
+	/**
+	 * Retrieves filtered query args,
+	 * ignores arguments like 'page', 'q',
+	 * 'reset', and 'noheader'.
+	 *
+	 * @since 0.2
+	 * @return array $query_args
+	 */
+	protected function get_filtered_query_args() {
+
+		/**
+		 * Filter query args to ignore.
+		 *
+		 * @since 0.2
+		 * @param array $query_args_to_ignore
+		 */
+		$query_args_to_ignore = apply_filters(
+			'cfcr/plugin/query_args_to_ignore',
+			[ 'page', 'q', 'reset', 'noheader' ]
+		);
+
+		return array_reduce(
+			array_keys( $_GET ),
+			function( $args, $arg_name ) use ( $query_args_to_ignore ) {
+
+				if ( in_array( $arg_name, $query_args_to_ignore ) ) return $args;
+
+				if ( $arg_name == 'id' ) {
+					$args["{$this->redirect_page_type}_$arg_name"] = $_GET[$arg_name];
+				} else {
+					$args[$arg_name] = $_GET[$arg_name];
+				}
+
+				return $args;
+
+			},
+			[]
+		);
 
 	}
 
