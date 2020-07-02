@@ -242,7 +242,7 @@ class Plugin {
 		 */
 		$query_args_to_ignore = apply_filters(
 			'cfcr/plugin/query_args_to_ignore',
-			[ 'page', 'q', 'reset', 'noheader' ]
+			[ 'page', 'q', 'reset', 'noheader', 'civiwp' ]
 		);
 
 		return array_reduce(
