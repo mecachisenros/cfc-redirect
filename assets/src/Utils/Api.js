@@ -17,7 +17,7 @@ export default ( endpoint ) => {
 
 		let [ path = '/', params ] = args
 
-		path = path
+		params.json = params.json ? JSON.stringify( params.json ) : params.json
 
 		return `${ path }?${ qs.stringify( params ) }`
 
@@ -45,7 +45,7 @@ export default ( endpoint ) => {
 
 		// query string helper
 		qs: getQueryString
-		
+
 	}
 
 }
