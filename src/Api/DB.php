@@ -179,8 +179,16 @@ class DB {
 
 		$current_db_version = (float) get_option( 'caldera_forms_civicrm_redirect_db_version', false );
 
-		if ( $current_db_version != $this->db_version )
+		// Tasks to perform on first install.
+		if ( empty( $current_db_version ) ) {
 			$this->create_tables();
+			$this->flush_civicrm_cache();
+		}
+
+		// Update db version when it changes.
+		if ( $current_db_version != $this->db_version ) {
+			update_option( 'caldera_forms_civicrm_redirect_db_version', $this->db_version );
+		}
 
 	}
 
@@ -212,6 +220,37 @@ class DB {
 		dbDelta( $sql );
 
 		return empty( $this->wpdb->last_error );
+
+	}
+
+	/**
+	 * Clear CiviCRM caches.
+	 *
+	 * Another way to do this might be:
+	 * CRM_Core_Invoke::rebuildMenuAndCaches(TRUE);
+	 *
+	 * @since 0.4
+	 */
+	public function flush_civicrm_cache() {
+
+		// Bail if no CiviCRM.
+		if ( ! civi_wp()->initialize() ) return;
+
+		// Access config object.
+		$config = \CRM_Core_Config::singleton();
+
+		// Clear database cache.
+		$config->clearDBCache();
+
+		// Cleanup the "templates_c" directory.
+		$config->cleanup( 1, true );
+
+		// Cleanup the session object.
+		$session = \CRM_Core_Session::singleton();
+		$session->reset( 1 );
+
+		// Call system flush.
+		\CRM_Utils_System::flushCache();
 
 	}
 
