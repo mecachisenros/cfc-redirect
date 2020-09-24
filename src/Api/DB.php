@@ -179,8 +179,15 @@ class DB {
 
 		$current_db_version = (float) get_option( 'caldera_forms_civicrm_redirect_db_version', false );
 
-		if ( $current_db_version != $this->db_version )
+		// Create tables on first install.
+		if ( empty( $current_db_version ) ) {
 			$this->create_tables();
+		}
+
+		// Update db version when it changes.
+		if ( $current_db_version != $this->db_version ) {
+			update_option( 'caldera_forms_civicrm_redirect_db_version', $this->db_version );
+		}
 
 	}
 
