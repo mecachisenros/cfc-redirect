@@ -48,7 +48,7 @@
   "dependencies": {
     "axios": "^0.18.1",
     "keen-ui": "^1.2.0",
-    "qs": "^6.7.0",
+    "qs": "^6.9.7",
     "vue": "^2.6.10",
     "vue-multiselect": "^2.1.6"
   }
